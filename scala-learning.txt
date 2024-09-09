@@ -1,0 +1,21 @@
+Scala:
+Scala is an object-oriented and functional programming language.
+Scala is not an extension of Java, but it is completely interoperable with it. While compilation, Scala file translates to Java bytecode and runs on JVM (Java Virtual machine).
+
+Type Inference
+In Scala, you don't require to mention data type and function return type explicitly. Scala is enough smart to deduce the type of data. The return type of function is determined by the type of last expression present in the function.
+
+Singleton object
+In Scala, there are no static variables or methods. Scala uses singleton object, which is essentially class with only one object in the source file. Singleton object is declared by using object instead of class keyword.
+
+Immutability
+Scala uses immutability concept. Each declared variable is immutable by default. Immutable means you can't modify its value. You can also create mutable variables which can be changed.
+
+Lazy Computation
+In Scala, computation is lazy by default. Scala evaluates expressions only when they are required. You can declare a lazy variable by using lazy keyword. It is used to increase performance.
+
+Traits
+A trait is like an interface with a partial implementation. In Scala, trait is a collection of abstract and non-abstract methods. You can create trait that can have all abstract methods or some abstract and some non-abstract methods. Traits are compiled into Java interfaces with corresponding implementation classes that hold any methods implemented in the traits.
+
+Rich Set of Collection
+Scala provides rich set of collection library. It contains classes and traits to collect data. These collections can be mutable or immutable. You can use it according to your requirement. Scala.collection.mutable package contains all the mutable collections. You can add, remove and update data while using this package.Scala.collection.immutable package contains all the immutable collections. It does not allow you to modify data.

@@ -1,0 +1,147 @@
+spark ecosystem
+spark context vs spark session
+spark driver and executor
+
+Stage
+DAG
+executor
+RDD Lineage
+
+https://sparkbyexamples.com/spark/sparksession-vs-sparkcontext/
+RDD
+transformation & action
+Cluster manger(standalone,yarn)
+
+https://stackoverflow.com/questions/30699530/how-does-lineage-get-passed-down-in-rdds-in-apache-spark
+https://medium.com/@charchitpatidar/stages-and-their-tasks-in-apache-spark-job-3465573c5477
+https://stackoverflow.com/questions/40852622/what-are-threadpoolexecutors-jobs-in-web-uis-spark-jobs
+
+
+RDD,Dataframe,dateset
+colase,repartiton
+accumlator
+persist & cache
+Broadcast Variable
+
+https://sparkbyexamples.com/spark/spark-rdd-vs-dataframe-vs-dataset/
+https://sparkbyexamples.com/spark/spark-difference-between-cache-and-persist/
+https://sparkbyexamples.com/spark/spark-difference-between-cache-and-persist/
+
+Narrow transformation
+
+how suffles works in spark and shuffling strategy
+
+https://www.educba.com/spark-shuffle/
+https://sparkbyexamples.com/spark/spark-shuffle-partitions/
+
+spark partition
+https://sparkbyexamples.com/spark/spark-partitioning-understanding/#:~:text=Spark%2FPySpark%20partitioning%20is%20a%20way%20to%20split%20the,%28multiple%20sub-directories%29%20for%20faster%20reads%20by%20downstream%20systems.
+
+
+spark SQL(try with some examples)
+spark UI - learn how spark UI compenants & how it works
+map & map partition
+foreach & foreach partition
+
+spark memory management(Youtude)
+ 
+spark UI sql tab and stage
+https://www.waitingforcode.com/apache-spark-sql/shuffle-join-spark-sql/read
+ 
+https://www.waitingforcode.com/apache-spark-sql/broadcast-join-spark-sql/read
+ 
+https://www.waitingforcode.com/apache-spark-sql/sort-merge-join-spark-sql/read
+ 
+https://jaceklaskowski.gitbooks.io/mastering-spark-sql/content/spark-sql-joins-broadcast.html
+
+spark OOM issue(Youtude)
+
+AWS GLUE memory
+https://aws.amazon.com/blogs/big-data/best-practices-to-scale-apache-spark-jobs-and-partition-data-with-aws-glue/
+https://aws.amazon.com/blogs/big-data/optimize-memory-management-in-aws-glue/
+https://stackoverflow.com/questions/68013349/aws-glue-worker-pricing-details-for-g-1x-and-g-2x
+https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html
+
+
+https://repost.aws/knowledge-center/glue-container-yarn-memory-limit - table where it mentioned the memory for driver & executor
+https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html - worker type details
+ 
+https://docs.aws.amazon.com/glue/latest/dg/monitor-profile-debug-oom-abnormalities.html - don't confuse with that graph just read through it... I was reading this so I shared it for now.. I'm just sharing it for an overview
+
+spark udf function
+https://sparkbyexamples.com/spark/spark-sql-udf/
+https://spark.apache.org/docs/latest/sql-ref-functions-udf-scalar.html
+https://sparkbyexamples.com/pyspark/pyspark-udf-user-defined-function/#google_vignette
+
+Spark SQL windows function
+cloumn based files vs  row based files to under stand the parquet files
+what is parquet file in details
+
+spark windows functon, rank,dense_rank windows function
+spark submit
+
+***********************
+PYSPARK
+**********************
+
+what is pyspark
+diff pyspark vs scala spark or Java spark
+pyspark RDD(ways to crate pyspark RDD)
+install pyspark
+pyspark- profiler
+pyspark - serializer
+
+complete install pyspark
+read csv,json,parquet file in pyspark
+withcloumn() & withcloumnRenamed() with examples
+structType() & structField() with examples
+
+Row()
+map_keys()
+map_values()
+slipt()
+filter()
+orderBy()
+sort()
+union(),unionAll(),unionByName()
+
+Array type coloums
+Explode
+Array
+Array_contains
+Above all for json file try with some josn files.
+Spark SQL -join test with temptable
+Group by
+concat_ws
+get_item
+explode vs explode_outer
+to_json (doubt)
+read DB data using jdbc
+boto3 and read s3 file by using tempcreds
+saveMode
+Save mode options in spark
+
+Read excel file with different sheet names 
+create empty dataframe
+convert dataframe to pandas and vice versa
+drop &drop duplicate
+
+reading excel with spark,pandas
+know more abt pd
+pyspark date & Time function
+pyspark expr()
+lit()
+foreach()
+pivot()
+
+
+aws glue
+dynamic dataframe with examples
+diff dynamic dataframe vs normal dataframe
+VPC
+push_down_predicate
+dynamic dataframe with options s3 (csv,parquet)& jdbc
+how CIDR BLOCKS decided
+VPC
+
+RuPF6RGu

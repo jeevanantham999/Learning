@@ -1,0 +1,131 @@
+SQL:
+Sub query:
+scalar subquery:
+A scalar subquery is a subquery that returns exactly one value(1 row 1 colmn). It is commonly used in SELECT, WHERE, or HAVING clauses when a single value is required for comparison
+
+SELECT name, salary
+FROM employees e
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees
+    WHERE department_id = e.department_id
+);
+
+****************************
+multiple-row subquery:
+1)mutiple column and mupltiple row 
+find the emp with highest sal in each dept
+
+select * from emp where (dept,salary) in ( (select dept,max(salary) from emp group by dept) );
+
+2) single clm multiple-row
+
+find the dept who do not have any emp
+emp - one table
+dept - one table
+
+
+select * from dept where dept_name not in ( select distinct dept_name from emp);
+
+****************************************
+
+co related sub query:
+
+subquery  which is dependet on outer query:
+find the emp in each dept who earns more then the avg salary in that dept
+
+select * from emp e1 where salary>(select avg(salary) from emp e2 where e1.dept_name=e2.deptname); -> for each emp_id the sub query executed
+
+find the dept name who not have any employees
+
+select * from dept d1 where not exists (select dept_name from emp e1 where e1.dept_name=d1.dept_name)
+
+not exists - when there is no value return from sub query it will hold that value.
+
+**************************************************
+
+
+select sub query 
+
+SELECT 
+    e.name, 
+    e.salary, 
+    (SELECT department_name 
+     FROM departments d 
+     WHERE d.department_id = e.department_id) AS department_name,
+    (SELECT AVG(salary) 
+     FROM employees e2 
+     WHERE e2.department_id = e.department_id) AS department_avg_salary
+FROM employees e;
+
+
+having subquery
+SELECT department_id, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department_id
+HAVING SUM(salary) > (
+    SELECT AVG(total_salary)
+    FROM (
+        SELECT SUM(salary) AS total_salary
+        FROM employees
+        GROUP BY department_id
+    ) AS dept_totals
+);
+We also use sub query in insert,update & delete.
+
+
+
+
+
+
+
+
+
+
+
+select distinct city from station where SUBSTR(city,1,1)IN( 'a', 'e', 'i','o','u') and SUBSTR(city,-1)IN( 'a', 'e', 'i','o','u') 
+
+
+select Name from students  where Marks>75 order by RIGHT(Name,3), ID;
+
+select ceil((avg(salary)) - (avg(replace(salary,'0','')))) as avg_sal from employees 
+
+
+SELECT
+  CASE
+    WHEN A + B <= C OR A + C <= B OR B + C <= A THEN 'Not A Triangle'
+    WHEN A = B AND B = C THEN 'Equilateral'
+    WHEN A = B OR A = C OR B = C THEN 'Isosceles'
+    ELSE 'Scalene'
+  END AS triangle_type
+FROM TRIANGLES;
+
+
+
+SELECT 
+    ROUND(LONG_W, 4) AS rounded_longitude
+FROM 
+    STATION
+WHERE 
+    LAT_N = (SELECT MAX(LAT_N) FROM STATION WHERE LAT_N < 137.2345);
+	
+	
+	
+	
+	SELECT CONCAT(REPEAT('* ', 20 - n + 1))
+FROM (SELECT 1 AS n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL
+      SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL
+      SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL SELECT 15 UNION ALL
+      SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19 UNION ALL SELECT 20) AS T;
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+

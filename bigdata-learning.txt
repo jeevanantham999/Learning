@@ -1,0 +1,149 @@
+SCala Learning:
+
+What is Big Data?
+*Big Data refers to massive amounts of data produced by different sources like social media platforms, web logs, sensors, IoT devices, and many more. It can be either structured (like tables in DBMS), semi-structured (like XML files), or unstructured (like audios, videos, images).
+
+*Big Data importance doesn’t revolve around the amount of data a company has. Its importance lies in the fact that how the company utilizes the gathered data.
+
+1. Cost Savings
+2. Time-Saving
+	*Real-time in-memory analytics helps companies to collect data from various sources. Tools like Hadoop help them to analyze data immediately thus helping in making quick decisions based on the learnings.
+
+Volume. 
+	Organizations collect data from a variety of sources, including transactions, smart (IoT) devices, industrial equipment, videos, images, audio, social media and more. In the past, storing all that data would have been too costly – but cheaper storage using data lakes, Hadoop and the cloud have eased the burden.
+
+Velocity. 
+	The term ‘velocity’ refers to the speed of generation of data. How fast the data is generated and processed to meet the demands, determines real potential in the data.
+	Big Data Velocity deals with the speed at which data flows in from sources like business processes, application logs, networks, and social media sites, sensors, Mobile devices, etc. The flow of data is massive and continuous.
+
+Variety. 
+	Data comes in all types of formats – from structured, numeric data in traditional databases to unstructured text documents, emails, videos, audios, stock ticker data and financial transactions.
+	
+4. Veracity:
+
+It refers to inconsistencies and uncertainty in data, that is data which is available can sometimes get messy and quality and accuracy are difficult to control.
+Big Data is also variable because of the multitude of data dimensions resulting from multiple disparate data types and sources.
+Example: Data in bulk could create confusion whereas less amount of data could convey half or Incomplete Information.
+
+5. Value:
+After having the 4 V’s into account there comes one more V which stands for Value!. The bulk of Data having no Value is of no good to the company, unless you turn it into something useful.
+Data in itself is of no use or importance but it needs to be converted into something valuable to extract Information. Hence, you can state that Value! is the most important V of all the 5V’s.
+	
+why Scala?:
+	The main reason for using Scala in these environments is due to its amazing concurrency support, which is the key in parallelizing processing of the large data sets.
+
+HADOOP:
+	it is a platform or framework which solves big data problems.
+	You can consider it as a suite which encompasses a number of services (ingesting, storing, analyzing and maintaining) inside it.
+
+HDFS
+	HDFS is the one, which makes it possible to store different types of large data sets (i.e. structured, unstructured and semi structured data).
+	HDFS creates a level of abstraction over the resources, from where we can see the whole HDFS as a single unit.
+	It helps us in storing our data across various nodes and maintaining the log file about the stored data (metadata).
+	HDFS has two core components, i.e. NameNode and DataNode. 
+	The NameNode is the main node and it doesn’t store the actual data. It contains metadata, just like a log file or you can say as a table of content. Therefore, it requires less storage and high computational resources.
+	On the other hand, all your data is stored on the DataNodes and hence it requires more storage resources. These DataNodes are commodity hardware (like your laptops and desktops) in the distributed environment. That’s the reason, why Hadoop solutions are very cost effective.
+	You always communicate to the NameNode while writing the data. Then, it internally sends a request to the client to store and replicate data on various DataNodes.
+YARN
+	Consider YARN as the brain of your Hadoop Ecosystem. It performs all your processing activities by allocating resources and scheduling tasks.
+
+	It has two major components, i.e. ResourceManager and NodeManager.
+	ResourceManager is again a main node in the processing department.
+	It receives the processing requests, and then passes the parts of requests to corresponding NodeManagers accordingly, where the actual processing takes place.
+	NodeManagers are installed on every DataNode. It is responsible for execution of task on every single DataNode.
+	Schedulers: Based on your application resource requirements, Schedulers perform scheduling algorithms and allocates the resources.
+	ApplicationsManager: While ApplicationsManager accepts the job submission, negotiates to containers (i.e. the Data node environment where process executes) for executing the application specific ApplicationMaster and monitoring the progress. ApplicationMasters are the deamons which reside on DataNode and communicates to containers for execution of tasks on each DataNode.ResourceManager has two components, i.e. Schedulers and ApplicationsManager.
+	
+MAPREDUCE
+	Apache Mapreduce is the core component of processing in a Hadoop Ecosystem as it provides the logic of processing. In other words, MapReduce is a software framework which helps in writing applications that processes large data sets using distributed and parallel algorithms inside Hadoop environment.
+
+	In a MapReduce program, Map() and Reduce() are two functions.
+	The Map function performs actions like filtering, grouping and sorting.
+	While Reduce function aggregates and summarizes the result produced by map function.
+	The result generated by the Map function is a key value pair (K, V) which acts as the input for Reduce function.
+
+
+	
+PIG: 
+
+	Pig was basically developed by Yahoo which works on a pig Latin language, which is Query based language similar to SQL.
+	It is a platform for structuring the data flow, processing and analyzing huge data sets.
+	Pig does the work of executing commands and in the background, all the activities of MapReduce are taken care of. After the processing, pig stores the result in HDFS.
+	
+HIVE: 
+			Facebook created HIVE for people who are fluent with SQL. Thus, HIVE makes them feel at home while working in a Hadoop Ecosystem.
+		Basically, HIVE is a data warehousing component which performs reading, writing and managing large data sets in a distributed environment using SQL-like interface.
+		HIVE + SQL = HQL
+
+		The query language of Hive is called Hive Query Language(HQL), which is very similar like SQL.
+		It has 2 basic components: Hive Command Line and JDBC/ODBC driver.
+		The Hive Command line interface is used to execute HQL commands.
+		While, Java Database Connectivity (JDBC) and Object Database Connectivity (ODBC) is used to establish connection from data storage.
+		Secondly, Hive is highly scalable. As, it can serve both the purposes, i.e. large data set processing (i.e. Batch query processing) and real time processing (i.e. Interactive query processing).
+		It supports all primitive data types of SQL.
+		You can use predefined functions, or write tailored user defined functions (UDF) also to accomplish your specific needs.
+	
+Oozie: 
+	Consider Apache Oozie as a clock and alarm service inside Hadoop Ecosystem. For Apache jobs, Oozie has been just like a scheduler. It schedules Hadoop jobs and binds them together as one logical work.
+
+	There are two kinds of Oozie jobs:
+
+	Oozie workflow: These are sequential set of actions to be executed. You can assume it as a relay race. Where each athlete waits for the last one to complete his part.
+	Oozie Coordinator: These are the Oozie jobs which are triggered when the data is made available to it. Think of this as the response-stimuli system in our body. In the same manner as we respond to an external stimulus, an Oozie coordinator responds to the availability of data and it rests otherwise.
+	
+	
+APACHE FLUME:
+	Ingesting data is an important part of our Hadoop Ecosystem.
+
+	The Flume is a service which helps in ingesting unstructured and semi-structured data into HDFS.
+	It gives us a solution which is reliable and distributed and helps us in collecting, aggregating and moving large amount of data sets.
+	It helps us to ingest online streaming data from various sources like network traffic, social media, email messages, log files etc. in HDFS.
+
+	There is a Flume agent which ingests the streaming data from various data sources to HDFS. From the diagram, you can easily understand that the web server indicates the data source. Twitter is among one of the famous sources for streaming data.
+
+	The flume agent has 3 components: source, sink and channel.
+
+	Source: it accepts the data from the incoming streamline and stores the data in the channel.
+	Channel: it acts as the local storage or the primary storage. A Channel is a temporary storage between the source of data and persistent data in the HDFS.
+	Sink: Then, our last component i.e. Sink, collects the data from the channel and commits or writes the data in the HDFS permanently.
+	
+APACHE SQOOP
+	Flume only ingests unstructured data or semi-structured data into HDFS.
+While Sqoop can import as well as export structured data from RDBMS or Enterprise data warehouses to HDFS or vice versa.
+	When we submit Sqoop command, our main task gets divided into sub tasks which is handled by individual Map Task internally. Map Task is the sub task, which imports part of data to the Hadoop Ecosystem. Collectively, all Map tasks imports the whole data.
+	Export also works in a similar manner.
+	When we submit our Job, it is mapped into Map Tasks which brings the chunk of data from HDFS. These chunks are exported to a structured data destination. Combining all these exported chunks of data, we receive the whole data at the destination, which in most of the cases is an RDBMS (MYSQL/Oracle/SQL Server).
+	
+	
+HIve VS Hbas
+	Apache Hive is a data warehouse system built on top of Hadoop, and Apache HBase is a NoSQL key/value on top of HDFS or Alluxio. 
+	Hive provides SQL features to Spark/Hadoop data, and HBase stores and processes Hadoop data in real-time. 
+	HBase is used for real-time querying or Big Data, whereas Hive is not suited for real-time querying. 
+	Hive is best used for analytical querying of data, and HBase is primarily used to store or process unstructured Hadoop data as a lake.
+	Apache Hive is a query engine but HBase is a data storage which is particular for unstructured data.
+	2.Apache Hive is not ideally a database but it is a MapReduce based SQL engine which runs atop Hadoop 3.HBase is a NoSQL database that is commonly used for real time data streaming.
+	4.Apache Hive is used for batch processing (that means, OLAP based) HBase is extremely used for transactional processing, and in the process, the query response time is not highly interactive (that means OLTP).
+
+HDFS VS HBase
+
+Hadoop and HBase are both used to store a massive amount of data. But the difference is that in Hadoop Distributed File System (HDFS) data is stored is a distributed manner across different nodes on that network. Whereas, HBase is a database that stores data in the form of columns and rows in a Table.
+HBase supports random read and writes while HDFS supports WORM (Write once Read Many or Multiple times).
+HDFS is basically or primarily accessed through MapReduce jobs while HBase is accessed through shell commands, Java API, REST, Avro or Thrift API.
+
+Cassandra
+	Cassandra is a NoSQL database which is distributed and scalable. It is provided by Apache.
+	Apache Cassandra is highly scalable, high performance, distributed NoSQL database. Cassandra is designed to handle huge amount of data across many commodity servers, providing high availability without a single point of failure.
+	Cassandra is a column-oriented database.
+	Cassandra is scalable, consistent, and fault-tolerant.
+	Cassandra is created at Facebook. It is totally different from relational database management systems.
+	
+What Is MongoDB?
+MongoDB is a highly flexible and scalable NoSQL database management platform that is document-based, can accommodate different data models, and stores data in key-value sets.  It was developed as a solution for working with large volumes of distributed data that cannot be processed effectively in relational models, which typically accommodate rows and tables. Like Hadoop, MongoDB is free and open-source.
+
+What Does Teradata Mean?
+Teradata is an open-source Database Management System for developing large-scale data warehousing applications. This tool provides support for multiple data warehouse operations simultaneously using the concept of parallelism. Teradata is a massively open processing system that supports Unix/Linux/Windows server platforms.
+
+What is Presto or PrestoDB?
+Presto (or PrestoDB) is an open source, distributed SQL query engine, designed from the ground up for fast analytic queries against data of any size. It supports both non-relational sources, such as the Hadoop Distributed File System (HDFS), Amazon S3, Cassandra, MongoDB, and HBase, and relational data sources such as MySQL, PostgreSQL, Amazon Redshift, Microsoft SQL Server, and Teradata.
+
+Presto can query data where it is stored, without needing to move data into a separate analytics system. Query execution runs in parallel over a pure memory-based architecture, with most results returning in seconds. You’ll find it used by many well-known companies like Facebook, Airbnb, Netflix, Atlassian, and Nasdaq.

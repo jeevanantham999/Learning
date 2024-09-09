@@ -1,0 +1,303 @@
+AWS
+
+Kinesis Data Analytics:
+With Amazon Kinesis Data Analytics for SQL Applications, you can process and analyze streaming data using standard SQL. The service enables you to quickly author and run powerful SQL code against streaming sources to perform time series analytics, feed real-time dashboards, and create real-time metrics.
+To get started with Kinesis Data Analytics, you create a Kinesis data analytics application that continuously reads and processes streaming data. The service supports ingesting data from Amazon Kinesis Data Streams and Amazon Kinesis Data Firehose streaming sources.
+
+AWS Transit Gateway:
+With AWS Transit Gateway, you can simplify the connectivity between multiple VPCs and also connect to any VPC attached to AWS Transit Gateway with a single VPN connection. AWS Transit Gateway also enables you to scale the IPsec VPN throughput with equal cost multi-path (ECMP) routing support over multiple VPN tunnels. A single VPN tunnel still has a maximum throughput of 1.25 Gbps. If you establish multiple VPN tunnels to an ECMP-enabled transit gateway, it can scale beyond the default limit of 1.25 Gbps.
+
+REDIS:
+ElastiCache can serve frequently requested items at sub-millisecond response times, and enables you to easily scale for higher loads without growing the costlier backend databases. Database query results caching, persistent session caching, and full-page caching are all popular examples of caching with ElastiCache for Redis.
+REDIS SUPPORT:-
+• Multi AZ with Auto-Failover
+• Read Replicas to scale reads
+and have high availability
+• Data Durability using AOF
+persistence
+• Backup and restore features
+
+
+
+Latency routing policy – Use when you have resources in multiple AWS Regions and you want to route traffic to the region that provides the best latency. You can use latency routing to create records in a private hosted zone.
+Geolocation routing policy – Use when you want to route traffic based on the location of your users. You can use geolocation routing to create records in a private hosted zone.
+Failover routing policy – Use when you want to configure active-passive failover. You can use failover routing to create records in a private hosted zone.
+Geoproximity routing policy – Use when you want to route traffic based on the location of your resources and, optionally, shift traffic from resources in one location to resources in another.
+
+
+PrincipalOrgID global condition is simples way to limit access
+
+
+AWS Network Firewall is a managed firewall service that provides filtering for both inbound and outbound network traffic. It allows you to create rules for traffic inspection and filtering, which can help protect your production VPC.
+
+
+Traffic Mirroring is a feature that allows you to replicate and send a copy of network traffic from a VPC to another VPC or on-premises location. It is not a service that performs traffic inspection or filtering
+
+AWS Firewall Manager is a security management service that helps you to centrally configure and manage firewalls across your accounts. It is not a service that performs traffic inspection or filtering.
+
+
+Gateway Load Balancer (GWLB): GWLB is designed for deploying third-party appliances and provides a scalable and easy way to route traffic through appliances. It operates at the network layer and can handle both TCP and UDP traffic.
+Operational Overhead: Deploying a GWLB in the inspection VPC and creating an endpoint involves less operational overhead compared to managing Load Balancers in the application's VPC. It allows for centralized management of the inspection process.
+This solution ensures that all traffic is routed through the Gateway Load Balancer for inspection before reaching the web servers, providing a scalable and efficient way to integrate the third-party virtual firewall appliance
+
+
+
+Amazon EBS fast snapshot restore (FSR) enables you to create a volume from a snapshot that is fully initialized at creation. This eliminates the latency of I/O operations on a block when it is accessed for the first time. Volumes that are created using fast snapshot restore instantly deliver all of their provisioned performance.
+
+
+AWS Trusted Advisor (Option B) is a service that provides best practice recommendations for your AWS resources, but it does not monitor or record changes to the configuration of your S3 buckets.
+
+Amazon Inspector (Option C) is a service that helps you assess the security and compliance of your applications. While it can be used to assess the security of your S3 buckets, it does not monitor or record changes to the configuration of your S3 buckets.
+
+Amazon S3 server access logging (Option D) enables you to log requests made to your S3 bucket. While it can help you identify changes to your S3 bucket, it does not monitor or record changes to the configuration of your S3 bucket.
+
+
+AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources. You can use AWS Config to monitor and record changes to the configuration of your Amazon S3 buckets. By turning on AWS Config and enabling the appropriate rules, you can ensure that your S3 buckets do not have unauthorized configuration changes. Configuration changes= AWS Config
+
+
+I would go for C. The tricky phrase is "near-real-time solution", pointing to Firehouse, but it can't send data to DynamoDB, so it leaves us with C as best option.
+Kinesis Data Firehose currently supports Amazon S3, Amazon Redshift, Amazon OpenSearch Service, Splunk, Datadog, NewRelic, Dynatrace, Sumologic, LogicMonitor, MongoDB, and HTTP End Point as destinations.
+
+
+A company maintains a searchable repository of items on its website. The data is stored in an Amazon RDS for MySQL database table that contains more than 10 million rows. The database has 2 TB of General Purpose SSD storage. There are millions of updates against this data every day through the company's website.
+The company has noticed that some insert operations are taking 10 seconds or longer. The company has determined that the database storage performance is the problem.
+Which solution addresses this performance issue?
+
+Option B (changing the DB instance to a memory optimized instance class) focuses on improving memory capacity but may not directly address the storage performance issue.
+
+Option C (changing the DB instance to a burstable performance instance class) is suitable for workloads with varying usage patterns and burstable performance needs, but it may not provide consistent and predictable performance for heavy write workloads.
+
+Option D (enabling Multi-AZ RDS read replicas with MySQL native asynchronous replication) is a solution for high availability and read scaling but does not directly address the storage performance issue.
+
+Therefore, option A is the most appropriate solution to address the performance issue by leveraging Provisioned IOPS SSD storage type, which provides consistent and predictable I/O performance for the Amazon RDS for MySQL database.
+
+
+A - is correct, because Dynamodb on-demand scales write and read capacity
+B - Aurora auto scaling scales only read replicas
+
+
+By using Pinpoint, the company can effectively send SMS messages to its mobile app users. Additionally, Pinpoint allows the configuration of journeys, which enable the tracking and management of user interactions. The events generated during the journey, including user responses to SMS, can be captured and sent to an Kinesis data stream. This data stream can then be used for analysis and archiving purposes.
+
+
+Lake Formation enables the creation of a secure and scalable data lake on AWS, allowing centralized access controls for both S3 and RDS data. By using Lake Formation, the company can manage permissions effectively and integrate RDS data through the AWS Glue JDBC connection. Registering the S3 in Lake Formation ensures unified access control. This solution reduces operational overhead while providing fine-grained permissions management.
+
+
+AWS Global Accelerator directs traffic to the optimal healthy endpoint based on health checks, it can also route traffic to the closest healthy endpoint based on geographic location of the client. By configuring an accelerator and attaching it to a Regional endpoint in each Region, and adding the ALB as the endpoint, the solution will redirect traffic to healthy endpoints, improving the user experience by reducing latency and ensuring that the application is running optimally. This solution will ensure that traffic is directed to the closest healthy endpoint and will help to improve the overall user experience.
+
+A. Use Amazon ElastiCache in front of the database:
+Caching frequently accessed data in ElastiCache can help reduce the load on the database and improve read performance.
+However, it's essential to note that while ElastiCache can significantly enhance read performance by serving frequently accessed data from memory, it might not entirely eliminate long delays and interruptions if the root cause is related to the database itself or if the caching strategy is not effectively implemented.
+
+B. Use RDS Proxy between the application and the database:
+Helps improve database connection management, reducing the number of open connections to the database and enhancing overall performance.
+RDS Proxy handles connection pooling, which means it can efficiently manage and reuse database connections, reducing the overhead of establishing new connections for each query.
+It supports features like read/write splitting, which directs read queries to read replicas, further distributing the load.
+
+
+The difference between pilot light and warm standby can sometimes be difficult to understand. Both include an environment in your DR Region with copies of your primary Region assets. The distinction is that pilot light cannot process requests without additional action taken first, whereas warm standby can handle traffic (at reduced capacity levels) immediately. The pilot light approach requires you to “turn on” servers, possibly deploy additional (non-core) infrastructure, and scale up, whereas warm standby only requires you to scale up (everything is already deployed and running). Use your RTO and RPO needs to help you choose between these approaches.
+
+
+Option A is incorrect because while Amazon Aurora global database is a good solution for disaster recovery, pilot light deployment provides only a minimalistic setup and would require manual intervention to make the DR Region fully operational, which increases the recovery time.
+
+Option B is a better choice than Option A as it provides a warm standby deployment, which is an automated and more scalable setup than pilot light deployment. In this setup, the database is replicated to the DR Region, and the standby instance can be brought up quickly in case of a disaster.
+
+Option C is incorrect because Multi-AZ DB instances provide high availability, not disaster recovery.
+
+Option D is a good choice for high availability, but it does not meet the requirement for DR in a different region with the least possible latency.
+
+
+Cost Explorer is a AWS service that allows you to view, analyze, and manage your AWS costs and usage. It provides a variety of reports that you can use to track your costs, including a report of AWS billed items listed by user.
+° Creating a report in Cost Explorer is a quick and easy way to get the information you need. You can customize the report to include the specific data you want, and you can download the report in a variety of formats, including CSV, Excel, and PDF.
+
+AWS DataSync is a data transfer service that can copy large amounts of data between on-premises storage and Amazon FSx for Windows File Server at high speeds. It allows you to control the amount of bandwidth used during data transfer.
+• DataSync uses agents at the source and destination to automatically copy files and file metadata over the network. This optimizes the data transfer and minimizes the impact on your network bandwidth.
+• DataSync allows you to schedule data transfers and configure transfer rates to suit your needs. You can transfer 30 TB within 5 days while controlling bandwidth usage.
+• DataSync can resume interrupted transfers and validate data to ensure integrity. It provides detailed monitoring and reporting on the progress and performance of data transfers.
+
+
+S3 Storage Lens is a fully managed S3 storage analytics solution that provides a comprehensive view of object storage usage, activity trends, and recommendations to optimize costs. Storage Lens allows you to analyze object access patterns across all of your S3 buckets and generate detailed metrics and reports.
+
+
+Amazon Inspector:
+• Performs active vulnerability scans of EC2 instances. It looks for software vulnerabilities, unintended network accessibility, and other security issues.
+• Requires installing an agent on EC2 instances to perform scans. The agent must be deployed to each instance.
+• Provides scheduled scan reports detailing any findings of security risks or vulnerabilities. These reports can be used to patch or remediate issues.
+• Is best suited for proactively detecting security weaknesses and misconfigurations in your AWS environment.
+
+
+Amazon GuardDuty:
+• Monitors for malicious activity like unusual API calls, unauthorized infrastructure deployments, or compromised EC2 instances. It uses machine learning and behavioral analysis of logs.
+• Does not require installing any agents. It relies on analyzing AWS CloudTrail, VPC Flow Logs, and DNS logs.
+• Alerts you to any detected threats, suspicious activity or policy violations in your AWS accounts. These alerts warrant investigation but may not always require remediation.
+• Is focused on detecting active threats, unauthorized behavior, and signs of a compromise in your AWS environment.
+• Can also detect some vulnerabilities and misconfigurations but coverage is not as broad as a dedicated service like Inspector.
+
+End users retain immediate access to all file types = Volume Gateway stored volume
+
+
+Send the outbound connection from EC2 to Network Firewall. In Network Firewall, create stateful outbound rules to allow certain domains for software patch download and deny all other domains.
+
+
+Predictive scaling: increases the number of EC2 instances in your Auto Scaling group in advance of daily and weekly patterns in traffic flows. If you have regular patterns of traffic increases use predictive scaling, to help you scale faster by launching capacity in advance of forecasted load. You don't have to spend time reviewing your application's load patterns and trying to schedule the right amount of capacity using scheduled scaling. Predictive scaling uses machine learning to predict capacity requirements based on historical data from CloudWatch. The machine learning algorithm consumes the available historical data and calculates capacity that best fits the historical load pattern, and then continuously learns based on new data to make future forecasts more accurate.
+
+
+Amazon S3 File Gateway provides on-premises applications with access to virtually unlimited cloud storage using NFS and SMB file interfaces. It seamlessly moves frequently accessed data to a low-latency cache while storing colder data in Amazon S3, using S3 Lifecycle policies to transition data between storage classes over time.
+
+In this case, the company's aging NAS array can be replaced with an Amazon S3 File Gateway that presents the same NFS and SMB shares to the client workstations. The data can then be migrated to Amazon S3 and managed using S3 Lifecycle policies
+
+An interface endpoint (also known as VPC endpoint) allows communication between resources in your VPC and services without traversing the public internet. In this case, you can create an interface endpoint for API Gateway in your VPC. This enables the communication between the BuyStock and CheckFunds RESTful web services within the VPC, and it doesn't require significant changes to the code.
+
+Implementing API usage plans and API keys is a straightforward way to restrict access to specific users or groups based on subscriptions. It allows you to control access at the API level and doesn't require extensive changes to your existing architecture. This solution provides a clear and manageable way to enforce access restrictions without complicating other parts of the application
+
+
+The most efficient solution for this scenario is to use EC2 Auto Scaling lifecycle hooks to run a custom script to send data to the audit system when instances are launched and terminated. The lifecycle hook can be used to delay instance termination until the script has completed, ensuring that all data is sent to the audit system before the instance is terminated. This solution is more efficient than using a scheduled AWS Lambda function, which would require running the function periodically and may not capture all instances launched and terminated within the interval. Running a custom script through user data is also not an optimal solution, as it may not guarantee that all instances send data to the audit system.
+
+
+"predictable capacity and uptime requirements" means "Reserved"
+"sockets and cores" means "dedicated host"
+
+
+
+
+that if there is no temporary local storage on the EC2 instances, then snapshots of EBS volumes are not necessary. Therefore, if your application does not require temporary storage on EC2 instances, using AMIs to back up the web and application tiers is sufficient to restore the system after a failure.
+
+Snapshots of EBS volumes would be necessary if you want to back up the entire EC2 instance, including any applications and temporary data stored on the EBS volumes attached to the instances. When you take a snapshot of an EBS volume, it backs up the entire contents of that volume. This ensures that you can restore the entire EC2 instance to a specific point in time more quickly. However, if there is no temporary data stored on the EBS volumes, then snapshots of EBS volumes are not necessary.
+
+
+Applicability Statement 2 (AS2) is a business-to-business (B2B) messaging protocol used to exchange Electronic Data Interchange (EDI) documents. With AWS Transfer Family’s AS2 capabilities, you can securely exchange AS2 messages at scale while maintaining compliance and interoperability with your trading partners.
+
+
+AWS IO2 does support Multi-Attach. Multi-Attach allows you to share access to an EBS data volume between up to 16 Nitro-based EC2 instances within the same Availability Zone. Each attached instance has full read and write permission to the shared volume. This feature is intended to make it easier to achieve higher application availability for customers that want to deploy applications that manage storage consistency from multiple writers in shared storage infrastructure. However, please note that Multi-Attach on io2 is available in certain regions only.
+
+
+REST API with Amazon API Gateway: REST APIs are the appropriate choice for providing the frontend of the microservices application. Amazon API Gateway allows you to design, deploy, and manage REST APIs at scale.
+
+Amazon ECS in a Private Subnet: Hosting the application in Amazon ECS in a private subnet ensures that the containers are securely deployed within the VPC and not directly exposed to the public internet.
+
+Private VPC Link: To enable the REST API in API Gateway to access the backend services hosted in Amazon ECS, you can create a private VPC link. This establishes a private network connection between the API Gateway and ECS containers, allowing secure communication without traversing the public internet.
+
+egress-only internet gateway: IPv6
+NAT gateway: IPv4
+
+
+Backlog per instance
+
+The issue with using a CloudWatch Amazon SQS metric like ApproximateNumberOfMessagesVisible for target tracking is that the number of messages in the queue might not change proportionally to the size of the Auto Scaling Group that processes messages from the queue. That's because the number of messages in your SQS queue does not solely define the number of instances needed. The number of instances in your Auto Scaling Group can be driven by multiple factors, including how long it takes to process a message and the acceptable amount of latency (queue delay). The solution is to use a backlog per instance metric with the target value being the acceptable backlog per instance to maintain. You can calculate these numbers as follows: Backlog per instance: To calculate your backlog per instance, start with the ApproximateNumberOfMessages queue attribute to determine the length of the SQS queue (number of messages available for retrieval from the queue). Divide that number by the fleet's running capacity, which for an Auto Scaling Group is the number of instances in the InService state, to get the backlog per instance. 
+
+AWS Service Catalog allows you to create and manage catalogs of IT services that can be deployed within your organization. With Service Catalog, you can define a standardized set of products (solutions and tools in this case) that customers can self-service provision. By creating Service Catalog products, you can control and enforce the deployment of approved and validated solutions and tools.
+
+
+cassendra - keyspaces
+graph database - aws neptune
+ledger database - amazon quantum ledger database
+
+time series data - aws timestream
+
+amazon fraud detector - identify supisious online payment
+Transcribe - converts speech to text
+Lex - chatbot,chatbot agent
+polly- text to speech
+amplify -managed server side renduring,mobile deployement
+
+aws cost explorer - valuable tool for AWS users to gain insights into their spending, optimize costs, and ensure efficient resource utilization
+
+aws budgets -  It is focused on setting, tracking, and managing budgets for AWS spending, as well as receiving alerts and notifications when actual or forecasted spending exceeds predefined thresholds.
+
+The AWS Cost and Usage Report is typically used for in-depth analysis of AWS usage and costs, enabling users to optimize their spending, allocate costs effectively, and gain better visibility into their AWS environment.
+
+AWS GuardDuty(continous monitoring) - proactive threat detection, machine learning, anomaly detection, and threat intelligence to identify potential security threats.
+
+AWS Inspector(automated vulnerabilities scan for ec2,vpc) - automated security assessment ,  vulnerabilities, security issues,compliance of applications , ec2 instance(host assessment) and VPC(network assessment)
+
+AWS Audit Manager( continous audit)-  automatically collects evidence from AWS services, such as AWS Config, AWS CloudTrail, and AWS Security Hub, to help assess your organization's compliance with regulatory requirements and internal policies. HIPAA or GDPR compliance.
+
+AWS Detective(root cause) -  security service that helps you analyze, investigate, and identify the root causes of potential security issues or suspicious activities within your AWS environment.
+
+
+A bicycle sharing company is developing a multi-tier architecture to track the location of its bicycles during peak operating hours. The company wants to use these data points in its existing analytics platform. A solutions architect must determine the most viable multi-tier option to support this architecture. The data points must be accessible from the REST API.
+Which action meets these requirements for storing and retrieving location data? Use Amazon API Gateway with AWS Lambda.
+
+A company recently deployed a new auditing system to centralize information about operating system versions, patching, and installed software for Amazon EC2 instances. A solutions architect must ensure all instances provisioned through EC2 Auto Scaling groups successfully send reports to the auditing system as soon as they are launched and terminated.
+Which solution achieves these goals MOST efficiently? Use EC2 Auto Scaling lifecycle hooks to run a custom script to send data to the audit system when instances are launched and terminated.
+
+Petabyte scale- Redshift
+
+The Multivalue routing policy allows Route 53 to respond to DNS queries with multiple healthy IP addresses for the same resource. This is particularly useful in scenarios where multiple instances are serving the same purpose and need to be load balanced or failover capable. With the Multivalue routing policy, Route 53 returns multiple IP addresses in a random order to distribute the traffic across all healthy instances.
+
+Option A (Simple routing policy) would only return a single IP address in response to DNS queries and does not support returning multiple addresses.
+
+Option B (Latency routing policy) is used to route traffic based on the lowest latency to the resource and does not fulfill the requirement of returning all healthy IP addresses.
+
+Option D (Geolocation routing policy) is used to route traffic based on the geographic location of the user and does not fulfill the requirement of returning all healthy IP addresses.
+
+Therefore, the Multivalue routing policy is the most suitable option for returning the IP addresses of all healthy EC2 instances in response to DNS queries.
+
+open source kubernetes - amazon EKS Distro
+
+application insights - x-ray
+
+GraphQL -AWS Appsync
+
+Amazon Kinesis Data Streams:
+Amazon Kinesis Data Streams is a real-time data streaming service offered by AWS.
+It allows you to build custom applications that process or analyze streaming data in real-time.
+Data is organized into shards, which are the basic throughput unit of a stream.
+You can scale the number of shards dynamically to handle changes in data volume.
+Kinesis Data Streams provides APIs for producers to publish data to the stream and consumers to read data from the stream.
+It's typically used for scenarios where you need low-latency processing of streaming data and want full control over how the data is processed.
+
+Amazon Kinesis Data Firehose:
+Amazon Kinesis Data Firehose is a fully managed service that makes it easy to load streaming data into AWS services for near real-time analytics.
+It can automatically scale to handle data ingestion without requiring manual intervention.
+Data Firehose can directly load streaming data into other AWS services such as Amazon S3, Amazon Redshift, Amazon Elasticsearch Service, and Splunk.
+It handles data delivery to the destination and also provides features like data transformation, compression, encryption, and error handling.
+Kinesis Data Firehose is suitable when you want to load streaming data into AWS services without managing the underlying infrastructure.
+
+Amazon Kinesis Data Analytics:
+Amazon Kinesis Data Analytics is a service for real-time analytics over streaming data.
+It allows you to easily process and analyze streaming data using SQL or Apache Flink.
+You can run continuous queries against streaming data and get real-time insights or transform the data before storing it in another AWS service.
+Kinesis Data Analytics can automatically scale to handle changes in data volume and throughput.
+It's suitable for scenarios where you want to perform real-time analytics on streaming data without managing the underlying infrastructure or writing complex code.
+
+AWS data pipeline - managed ETL services,automatic retries for data-driven workflow.focused on orchestrating and scheduling data workflows across different services
+
+amazon MSK - apache kafka(streaming data)
+
+aws Appflow - ingesting data from Saas application to aws services.
+
+
+A company’s compliance team needs to move its file shares to AWS. The shares run on a Windows Server SMB file share. A self-managed on-premises Active Directory controls access to the files and folders.
+
+The company wants to use Amazon FSx for Windows File Server as part of the solution. The company must ensure that the on-premises Active Directory groups restrict access to the FSx for Windows File Server SMB compliance shares, folders, and files after the move to AWS. The company has created an FSx for Windows File Server file system.
+
+Which solution will meet these requirements?
+Join the file system to the Active Directory to restrict access.
+
+Joining the FSx for Windows File Server file system to the on-premises Active Directory will allow the company to use the existing Active Directory groups to restrict access to the file shares, folders, and files after the move to AWS. This option allows the company to continue using their existing access controls and management structure, making the transition to AWS more seamless.
+
+
+
+A rapidly growing ecommerce company is running its workloads in a single AWS Region. A solutions architect must create a disaster recovery (DR) strategy that includes a different AWS Region. The company wants its database to be up to date in the DR Region with the least possible latency. The remaining infrastructure in the DR Region needs to run at reduced capacity and must be able to scale up if necessary.
+
+Which solution will meet these requirements with the LOWEST recovery time objective (RTO)?
+
+Option A is incorrect because while Amazon Aurora global database is a good solution for disaster recovery, pilot light deployment provides only a minimalistic setup and would require manual intervention to make the DR Region fully operational, which increases the recovery time.
+
+Option B is a better choice than Option A as it provides a warm standby deployment, which is an automated and more scalable setup than pilot light deployment. In this setup, the database is replicated to the DR Region, and the standby instance can be brought up quickly in case of a disaster.
+
+Option C is incorrect because Multi-AZ DB instances provide high availability, not disaster recovery.
+
+Option D is a good choice for high availability, but it does not meet the requirement for DR in a different region with the least possible latency.
+
+
+Keyword here is a minimum throughput of 6 GBps. Only the FSx for Lustre with SSD option gives the sub-milli response and throughput of 6 GBps or more.
+
+
+EBS general purpose ipos & provisioned Ipos ssd - transction db
+troughput optimized hdd - etl,datawhere house,complex qureis,large i/o sizes
+
+S3 Storage Lens is a fully managed S3 storage analytics solution that provides a comprehensive view of object storage usage, activity trends, and recommendations to optimize costs. Storage Lens allows you to analyze object access patterns across all of your S3 buckets and generate detailed metrics and reports.
+
+Amazon S3 File Gateway provides a file interface to objects stored in S3. It can be used for a file-based interface with S3, which allows the company to migrate their NAS array data to S3 while maintaining the same look and feel for client workstations. Amazon S3 File Gateway supports SMB and NFS protocols, which will allow clients to continue to access the data using these protocols. Additionally, Amazon S3 Lifecycle policies can be used to automate the movement of data to lower-cost storage tiers, reducing the storage cost of inactive data.
+

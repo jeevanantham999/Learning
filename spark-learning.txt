@@ -1,0 +1,788 @@
+Spark 
+in-memory processing
+distribuited 
+general purpose cluster computing
+efficiently execute streaming as well as the batch,itrative alg or qureies
+lighting fast cluster computing
+It distributes data in file system across the cluster, and process that data in parallel
+language- scala,java,python,R
+spark has own cluster management system
+Applications running on Spark are 100x faster than traditional systems.
+wide range of workloads for example batch, interactive, iterative and streaming.
+One more common belief about Spark is that it is an extension of Hadoop. Although that is not true. However, Spark is independent of Hadoop since it has its own cluster management system. Basically, it uses Hadoop for storage purpose only.
+
+Spark Components
+Spark Core
+Spark Core is the fundamental unit of the whole Spark project. It provides all sort of functionalities like task dispatching, scheduling, and input-output operations etc.Spark makes use of Special data structure known as RDD (Resilient Distributed Dataset). It is the home for API that defines and manipulate the RDDs. Spark Core is distributed execution engine with all the functionality attached on its top. For example, MLlib, SparkSQL, GraphX, Spark Streaming. Thus, allows diverse workload on single platform. All the basic functionality of Apache Spark Like in-memory computation, fault tolerance, memory management, monitoring, task scheduling is provided by Spark Core.
+Apart from this Spark also provides the basic connectivity with the data sources. For example, HBase, Amazon S3, HDFS etc.
+
+Spark SQL
+Spark Streaming
+MLlib(Machine learning library)
+GraphX
+Spark R
+
+Spark Job
+ Spark Job refers to a set of tasks or computations that are executed in a distributed computing environment using the Apache Spark framework
+
+ Spark job typically involves the following steps:
+
+Loading data from a data source
+Transforming or manipulating the data using Spark’s APIs such as Map, Reduce, Join, etc.
+Storing the processed data back to a data store.
+
+Driver 
+
+Manages the overall execution of a Spark application.
+There is only one Driver per Spark application.
+Responsible for coordinating tasks, scheduling, and interacting with the Cluster Manager.
+Initiates SparkContext, which represents a connection to a Spark cluster.
+Monitors the execution progress and ensures fault tolerance.
+
+The driver runs the main method of our application.
+The driver creates SparkContext and SparkSession.
+It converts your application code into Task(transformation and action) using DAG.
+Helps to create the DAG’s Execution Plan, Logical Plan, and Physical Plan.
+Driver schedules tasks to executor with the help of cluster manager.
+Driver coordinates with the executor and keeps track of data stored in executors.
+
+*data processing engine
+Spark’s main feature is its memory cluster computing which increases the application’s processing speed
+ *it doesn’t shuffle data from one cluster to another;
+* Spark has in-memory processing, which makes it faster than MapReduce but still scalable. 
+*Just like MapReduce spark works on distributed computing, it takes the code,
+ and the Driver program creates a job and submits it to DAG Scheduler.
+ *DAG creates a job graph and submits the job to Task Scheduler. 
+*Task Scheduler then runs the job through a cluster management system.
+
+executor
+
+Executes tasks on worker nodes as directed by the Driver.
+Multiple Executors run concurrently in a Spark application.
+Created when a SparkContext is created and runs until the application is terminated.
+Manages its own memory and executes individual tasks assigned by the Driver.
+Communicates with the Driver for task assignments and reports task status.
+
+Default Executor: This is the default type of Executor in Spark, and it is used for general-purpose data processing tasks. Each node in the cluster runs one Default Executor by default.
+Coarse-Grained Executor: Coarse-Grained Executors are used for tasks that require more memory, and they can be configured to have larger amounts of memory than the Default Executors. They are also used when the application has large datasets that need to be processed.
+Fine-Grained Executor: Fine-Grained Executors are used for tasks that require less memory and are used when the application has many small tasks to perform. They are also useful in cases where the data is not evenly distributed across the nodes in the cluster.
+External Executors: External Executors are used when the application needs to use external resources for processing. For example, if the application needs to use a GPU for processing, an External Executor can be used to offload the processing to the GPU.
+****************************************************************************************************************
+spark context:
+*SparkContext is the entry point of Spark functionality.
+*If you want to create SparkContext, first SparkConf should be made.Some of these parameter defines properties of Spark driver application. While some are used by Spark to allocate resources on the cluster, like the number, memory size, and cores used by executor running on the worker nodes.
+*Only one SparkContext may be active per JVM. You must stop the active it before creating a new one as below:
+stop(): Unit
+It will display the following message:
+INFO SparkContext: Successfully stopped SparkContext
+*//Create conf object
+val conf = new SparkConf()
+.setAppName(“WordCount”)
+//create spark context object
+val sc = new SparkContext(conf)
+//Check whether sufficient params are supplied
+
+val conf = new SparkConf().setAppName(appName).setMaster(master)
+val sc = new SparkContext(conf)
+
+
+spark session
+Starting from Apache Spark 2.0, Spark Session is the new entry point for Spark applications.
+
+Prior to 2.0, SparkContext was the entry point for spark jobs. RDD was one of the main APIs then, and it was created and manipulated using Spark Context. For every other APIs, different contexts were required – For SQL, SQL Context was required; For Streaming, Streaming Context was required; For Hive, Hive Context was required.
+
+But from 2.0, RDD along with DataSet and its subset DataFrame APIs are becoming the standard APIs and are a basic unit of data abstraction in Spark. All of the user defined code will be written and evaluated against the DataSet and DataFrame APIs as well as RDD.
+
+So, there is a need for a new entry point build for handling these new APIs, which is why Spark Session has been introduced. Spark Session also includes all the APIs available in different contexts – Spark Context, SQL Context, Streaming Context, Hive Context.
+*******************************************************************************************************************
+
+RDD
+*It is the fundamental unit of data in Spark
+*Spark RDDs are immutable in nature.
+*Each and every dataset in Spark RDD is logically partitioned across many servers so that they can be computed on different nodes of the cluster.
+Resilient, i.e. fault-tolerant with the help of RDD lineage graph(DAG) and so able to recompute missing or damaged partitions due to node failures.
+Distributed, since Data resides on multiple nodes.
+Dataset represents records of the data you work with. The user can load the data set externally which can be either JSON file, CSV file, text file or database via JDBC with no specific data structure.
+
+
+Ways to create Spark RDD
+*i. Parallelized collections
+ii. External datasets
+iii. Existing RDDs
+
+
+RDD Persistence and Caching Mechanism in Apache Spark
+***Spark RDD persistence is an optimization technique in which saves the result of RDD evaluation. 
+**** Using this we save the intermediate result so that we can use it further if required. It reduces the computation overhead.
+We can make persisted RDD through cache() and persist() methods.
+
+Features of Spark RDD
+i. In-memory computation
+ii. Lazy Evaluation
+iii. Fault Tolerance
+iv. Immutability
+v. Persistence
+
+Spark RDDs operations
+i. Transformation Operations
+a. Narrow Transformations 
+It is the result of map, filter and such that the data is from a single partition only, i.e. it is self-sufficient. 
+ex:map,flatmap,mapPartition,filter,sample,union
+
+b. Wide Transformations
+The data required to compute the records in a single partition may live in many partitions of the parent RDD. 
+groupByKey(),reduceByKey(),intersection,distinct,join,cartesin,repartition,coalesce
+
+ii. Action Operations
+*An Action in Spark returns final result of RDD computations. It triggers execution using lineage graph to load the data into original RDD, carry out all intermediate transformations and return final results to Driver program or write it out to file system. Lineage graph is dependency graph of all parallel RDDs of RDD.
+*An Action is one of the ways to send result from executors to the driver. First(), take(), reduce(), collect(), the count() is some of the Actions in spark.
+
+*********************************************************************************************************************
+Apache Spark Architecture
+1. Spark Driver
+The driver’s responsibility is to coordinate the tasks and the workers for management. 
+t’s an Application JVM process and is considered a master node
+
+2. Executor
+It is responsible for the execution of a job and stores data in a cache.
+Executors perform read/ write process on external sources.
+The executor runs the job when it has loaded data and they are been removed in the idle mode
+
+3. Cluster Manager
+It helps in managing the clusters which have one master and number of slaves. 
+There are two types of cluster managers like YARN and standalone both these are managed by Resource Manager and Node. 
+cluster work on Stand-alone requires Spark Master and worker node as their roles. 
+The responsibility of the cluster manager is to allocate resources and to execute the task
+
+4. Worker Nodes
+They are the slave nodes; 
+the main responsibility is to execute the tasks and the output of them is returned back to the spark contex
+
+1.lightning fast cluster computing platform
+2.Spark can perform batch processing and stream processing.
+	*Batch processing refers, to the processing of the previously
+	collected job in a single batch. 
+	*Whereas stream processing means to deal with Spark streaming data
+* it uses Hadoop for storage purpose only.
+*Although, there is one spark’s key feature that it has in-memory cluster computation capability
+*******************************************************************************************************
+Apache Spark cluster managers
+===>
+Apache Spark Cluster Managers – YARN, Mesos & Standalone
+* It makes it easy to setup a cluster that Spark itself manages and can run on Linux, Windows, or Mac OSX.
+ii. Apache Mesos
+&***Mesos handles the workload in distributed environment by dynamic resource sharing and isolation.
+iii. Hadoop YARN
+****YARN data computation framework is a combination of the ResourceManager, the NodeManager.
+
+***********************************************************
+Directed Acyclic Graph DAG in Apache Spark
+*(Directed Acyclic Graph) DAG in Apache Spark is a set of Vertices and Edges, 
+where vertices represent the RDDs and the edges represent the Operation to be applied on RDD
+
+ that each stage depends on the completion of the previous stage, and each task within a stage can run independently of the other.
+ 
+ At a high level, a DAG represents the logical execution plan of a Spark job. When a Spark application is submitted, Spark translates the high-level operations (such as transformations and actions) specified in the application code into a DAG of stages and tasks.
+ 
+ The DAG plays a critical role in this process by providing a logical execution plan for the job.
+The DAG breaks the job down into a sequence of stages, where each stage represents a group of tasks that can be executed independently of each other. The tasks within each stage can be executed in parallel across the machines.
+The DAG allows Spark to perform various optimizations, such as pipelining, task reordering, and pruning unnecessary operations, to improve the efficiency of the job execution.
+By breaking down the job into smaller stages and tasks, Spark can execute them in parallel and distribute them across a cluster of machines for faster processing.
+
+DAG Scheduler
+In Spark, the DAG Scheduler is responsible for transforming a sequence of RDD transformations and actions into a directed acyclic graph (DAG) of stages and tasks, which can be executed in parallel across a cluster of machines. The DAG Scheduler is one of the key components of the Spark execution engine, and it plays a critical role in the performance of Spark jobs.
+
+Stages: A stage represents a set of tasks that can be executed in parallel. There are two types of stages in Spark: shuffle stages and non-shuffle stages. Shuffle stages involve the exchange of data between nodes, while non-shuffle stages do not.
+Tasks: A task represents a single unit of work that can be executed on a single partition of an RDD. Tasks are the smallest units of parallelism in Spark.
+Dependencies: The dependencies between RDDs determine the order in which tasks are executed. There are two types of dependencies in Spark: narrow dependencies and wide dependencies. Narrow dependencies indicate that each partition of the parent RDD is used by at most one partition of the child RDD, while wide dependencies indicate that each partition of the parent RDD can be used by multiple partitions of the child RDD.
+
+RDD Persistence: When an RDD is marked as “persistent,” Spark will keep its partition data in memory or on disk, depending on the storage level used. This ensures that if a node fails, Spark can rebuild the lost partitions from the persisted data, rather than recomputing the entire RDD.
+Checkpointing: Checkpointing is a mechanism to periodically save the RDDs to a stable storage like HDFS. This mechanism reduces the amount of recomputation required in case of failures. In case of a node failure, the RDDs can be reconstructed from the latest checkpoint and their lineage.
+**************************
+Stages:
+A stage is nothing but a step in a physical execution plan. It is a physical unit of the execution plan. It is a set of parallel tasks i.e. one task per partition. In other words, each job which gets divided into smaller sets of tasks is a stage.
+
+Spark application is broken down into Jobs for each and every action and Jobs are broken down into stages for every wider shuffle transformation and finally, stages are broken into tasks.
+
+Stages are executed sequentially, with the output of one stage becoming the input to the next stage.
+
+Narrow Stages: Narrow stages are stages where the data does not need to be shuffled. Each task in a narrow stage operates on a subset of the partitions of its parent RDD. Narrow stages are executed in parallel and can be pipelined.
+Wide Stages: Wide stages are stages where the data needs to be shuffled across the nodes in the cluster. This is because each task in a wide stage operates on all the partitions of its parent RDD. Wide stages involve a data shuffle and are typically more expensive than narrow stages.
+
+***********************
+cache() and persist():
+Using this we save the intermediate result so that we can use it further if required. It reduces the computation overhead.
+When we use the cache() method we can store all the RDD in-memory. We can persist the RDD in memory and use it efficiently across parallel operations.
+
+
+Apache Spark SQL
+*Apache Spark SQL integrates relational processing with Sparks functional programming
+
+ Catalyst Optimizer
+*It is a functional programming construct in Scala.
+* A catalyst is a query plan optimizer. 
+*Catalyst supports cost based optimization and rule-based optimization. 
+
+
+Accumulators
+************
+*Accumulators are the variables which get added to associated operations.
+ * There are many uses for accumulators like counters, sums etc.
+*Accumulators is a shared variable which can be used to implement counters with in the Spark application.
+*It is important to perform some counts as part of the application for
+	unit testing
+	data quality
+These counters cannot be global variables as part of the program
+Instead we need to use accumulator which will be managed by spark
+Accumulators will be passed to executors and scope is managed across all the executors or executor tasks
+Accumulators can be used in any Spark APIs
+sc.accumulator() is the API to create accumulator
+In any Spark API, we can increment the accumulator
+
+
+Broadcast Variable:
+********************
+*Broadcast variable helps the programmer to keep read the only variable cached on every machine in the cluster, 
+rather than shipping copy of that variable with tasks. This helps in the reduction of communication costs.
+* is another type of shared variable which can be broadcasted into all the executors and can access at runtime by tasks while processing data. 
+It is typically used to replace joins with lookups when a very large data set is joined with small data set which can fit into the memory of executor JVM.
+
+At times we need to pass (broadcast) some information to all the executors
+It can be done by using broadcast variables
+A broadcast variable can be of preliminary type or it could be a hash map
+Here are few examples
+Single value – Common discount percent for all the products
+Hash map – look up or map side join
+
+
+Coalesce
+***********
+*This function helps to avoid the shuffling of data. 
+*This is applied in the existing partition so that less data is shuffled. 
+*This way, we can restrict the usage of nodes in the cluster.
+
+repartition()	
+______________
+Return a dataset with number of partition specified in the argument.
+ This operation reshuffles the RDD randamly,
+ It could either return lesser or more partioned RDD based on the input supplied.
+
+coalesce()
+********
+Similar to repartition by operates better when we want to the decrease the partitions. 
+Betterment acheives by reshuffling the data from fewer nodes compared with all nodes by repartition.
+
+
+**********************************
+shuffle:
+ s1 - data per shuffle partition is large 
+ 
+ optimal size of data can be shuffled is per core is - 1 to 200 mb
+ 
+ total core = total executor * no of cores per executor = 5*4=20
+ shuffle partition =200
+ shuffle write data =300gb
+ 
+ data size per shuffle partition =300*1000mb/200(default shuffle partition) =1.5gb(which is very large shuffle partition data size per core to handle)
+ 
+ number of shuffle partition = 300*1000mb/200mb(optimal size of data can be shuffled is per core is - 1 to 200 mb) = 1500 shuffle partition
+ 
+s2- data per shuffle partition is very small
+
+total core = 3*4 =12
+data =50mb
+SP=200
+
+data size per shuffle partition = 500mb/200=250kb(which is very small shuffle data size)
+
+we can use 2 cases
+
+1. number of shuffle partition = 50mb/10mb(we can choose the size of shuffle partition range between 1-200 which is optimal) = 5 SP
+
+but in this case total 12 corers are there but 5 partition only allocated so remaining 7 corers will be idle so we can go for 2nd way
+
+2. total size of SP = 50mb/12(total core) = 4.2mb so we can use SP =12 so that all the core will be utilized with 4.2mb of data.
+
+
+******************************
+Numpartition
+Creating partitions doesn't result in loss of data due to filtering. The upperBound, lowerbound along with numPartitions just defines how the partitions are to be created. The upperBound and lowerbound don't define the range (filter) for the values of the partitionColumn to be fetched.
+
+For a given input of lowerBound (l), upperBound (u) and numPartitions (n) 
+The partitions are created as follows:
+
+stride, s= (u-l)/n
+
+**SELECT * FROM table WHERE partitionColumn < l+s or partitionColumn is null**
+SELECT * FROM table WHERE partitionColumn >= l+s AND <2s  
+SELECT * FROM table WHERE partitionColumn >= l+2s AND <3s
+...
+**SELECT * FROM table WHERE partitionColumn >= l+(n-1)s**
+For instance, for upperBound = 500, lowerBound = 0 and numPartitions = 5. The partitions will be as per the following queries:
+
+SELECT * FROM table WHERE partitionColumn < 100 or partitionColumn is null
+SELECT * FROM table WHERE partitionColumn >= 100 AND <200 
+SELECT * FROM table WHERE partitionColumn >= 200 AND <300
+SELECT * FROM table WHERE partitionColumn >= 300 AND <400
+...
+SELECT * FROM table WHERE partitionColumn >= 400
+
+
+***************************
+
+map() vs mapPartitions()
+map() – Spark map() transformation applies a function to each row in a DataFrame/Dataset and returns the new transformed Dataset.
+mapPartitions() – This is exactly the same as map(); the difference being, Spark mapPartitions() provides a facility to do heavy initializations (for example Database connection) once for each partition instead of doing it on every DataFrame row. This helps the performance of the job when you dealing with heavy-weighted initialization on larger datasets.
+
+One key point to remember, these both transformations returns the Dataset[U] but not the DataFrame (In Spark 2.0,  DataFrame = Dataset[Row]) .
+After applying the transformation function on each row of the input DataFrame/Dataset, these return the same number of rows as input but the schema or number of the columns of the result could be different.
+If you know flatMap() transformation, this is the key difference between map and flatMap where map returns only one row/element for every input, while flatMap() can return a list of rows/elements.
+
+mapPartitions() keeps the result of the partition in-memory until it finishes executing all rows in a partition.
+
+************************
+map() vs flatmap()
+map takes a function that returns a single element for each input element.
+flatMap takes a function that returns an iterable (zero or more elements) for each input element and then flattens the results.
+Number of Output Elements:
+
+map maintains a one-to-one mapping between input and output elements.
+flatMap can produce a different number of output elements from the input elements.
+
+***********************
+to check empty dataframe
+
+df.rdd.isEmpty() or df.head(1).isEmpty()
+
+*******************
+to check numeric value
+
+      df.select(col("alphanumeric"),
+          col("alphanumeric")
+            .cast("int").isNotNull.alias("Value ")
+        ).show()
+column with alpanumeric will return false clm with numeric will return true
+
+rlike function also we can use
+
+df.filter(col("alphanumeric")
+    .rlike("^[0-9]*$")
+  ).show()
+  
+ **************
+ salting for data skewness
+ 
+ casues - groupby , joins - more suffle , ended up particular values in single partition
+inaduqate partition startgies - default spark hash partition cause more values ended up in single hash values
+un even distribution of data by default - for ex - some state as more population compare to other state
+
+consequences :
+slow running task -single partition remaining tasks will completed faster but the skewed task will taking more time since it's handling high number of volumn
+
+splling data to disk - if the data not fit in memory it will spill to disk and it's more costly operation spilling to disk 
+
+***************************
+Union vs unionbyname
+union:
+
+Combines two DataFrames with the same schema (same column names and types) by appending rows of the second DataFrame to the first DataFrame.
+The columns in the two DataFrames must be in the same order.
+If the columns are not in the same order or if the schemas are different, this method will raise an error.
+
+unionByName:
+
+Combines two DataFrames by aligning columns by name, not by position.
+The columns do not need to be in the same order.
+If there are columns in one DataFrame that are not in the other, unionByName will add null values for those columns where data is missing.
+This method is more flexible when dealing with DataFrames that have different schemas or different column orders.
+
+union_by_name_df = df1.unionByName(df2, allowMissingColumns=True)
+
+Note: The allowMissingColumns=True parameter is used to allow the union of DataFrames with different columns, filling missing columns with null.
+
+
+***********************
+
+split the values using explode 
+
+name | hobbies
+jeeva | tennis,cricket
+john| football
+
+df_split = df.select(df.name,explode(split(df.hobbies,',')).alias("hobbies"))
+
+in explode it will expect datatype as array but in df it present as string so we used split to convert to arry of values then we used explode
+
+*********************
+colase will used in pyspark to return the firstnotnull values
+****************
+
+to get dept wise highest salary
+we need to use windows function to partion the column based on dept 
+
+df_rank=df.select('*', dense_rank().over(window.partitionBy(df.deptname).orderBy(df.salary.desc())).alias("rank"))
+
+df_fil=df_rank.filter(df_rank.rank==1)
+*********************
+modifiedBefore,modifiedAfter
+spark.read.option(header=true).csv(path='/path',modifiedBefore='2024-01-30T00:00:00'
+
+******************************
+schema comparison
+ df1,df2,df3
+ 
+ df1 & df2 are having same schema but df3 is having different schema
+ 
+ first we check df schemas are same or not using if else
+ 
+ if df1.schema==df2.schema:
+	print("schema same")
+else:
+	print("schema is not same")
+	
+then we need to check how many schemas are missing
+
+set(df1.schema)-set(df3.schema) - will give in schema which is not present in df1 from df3 retrun in {} so we convert to list []
+
+print(list(set(df1.schema)-set(df3.schema)))
+print(list(set(df1.schema)-set(df3.schema)))
+
+collect all the unique cloumns
+allcol will retrun all the column from both df so we using set to get unique col then using list to convert as arr []
+
+allcol=df1.columns+df3.columns
+uniquecol=list(set(allcol))
+print(uniquecol)
+
+add missing col
+
+for i in uniquecol:
+	if i not in df1.columns:
+		df1=df1.withcolumn(i,lit(None))
+	if i not in df3.columns:
+		df3=df3.withcolumn(i,lit(None))
+
+*********************************************
+structType vs Maptype
+StructType is used to define a DataFrame schema with a fixed structure. It's a collection of StructField objects, where each field has a name, a type, and possibly other attributes like whether it's nullable. It is similar to defining a table structure in a relational database.
+
+MapType is used to define a column in a DataFrame that holds a map (dictionary) of key-value pairs. The keys and values can be of any data type. It's useful when the schema is not fixed, and you need to store a dynamic set of key-value pairs.
+
+******************************
+subtract vs expectAll
+
+subtract will retrun the rows which is not present in df2 where as expect all will retrun same but it won't remove duplicates.
+
+******************************
+
+read the file from folders & subfolder
+
+recursiveFileLookup will use to read the file recursivefiles which is sub folder file also
+
+***************************
+compression -codec
+df.write.options('header',True).mode('overwrite').csv(path='/tmp/file.csv.gzip',sep='|',compression='gzip',encoding='cp1252')
+encoding is importent in compression
+
+df1=spark.read.option('header',True).csv(path='/tmp/file.csv.gzip',sep='|',encoding='cp1252')
+**********************
+lineSep
+
+In PySpark, the lineSep option is used to specify the line separator for reading and writing text files. This can be particularly useful when dealing with files that use non-standard line separators.
+
+\n (LF) - Line Feed (common in Unix/Linux systems)
+\r\n (CRLF) - Carriage Return + Line Feed (common in Windows systems)
+\r (CR) - Carriage Return (common in old Mac systems)
+
+**************************
+mode permissive - default if any crroupted value it will replace with null
+dropmalformed - drop the entire row if any crroupted is present in one value
+failfast -  throw error if any crroupted record is present
+
+columnNameOfCorruptRecord
+option("columnNameOfCorruptRecord", "_corrupt_record"): This specifies the name of the column where corrupt records should be stored.
+
+if u want to save crroupted record as file 
+df.filter(df._corrupt_record.isNotNull())
+***********************
+partitionBy
+When you use partitionBy, PySpark saves the data into separate directories based on the unique values of the specified column(s). Each unique value in the column(s) will have its own directory, and the files within these directories will only contain the records corresponding to that value.
+df.write.partitionBy("country").parquet(output_path)
+**********************
+lag will help to sub the from previous value like 
+id
+1
+2
+3
+it will subtract the 2-1,3-2 like this
+df1= df.withcolumn(df.SOdate.cast(DateType())
+df2=df1.select(month(df1.SOdate).alias(Month),year(df1.SOdate).alias(year),df1.Itemvalues)
+df3=df2.groupby(df2.month,df2.year).agg(sum(df2.itemvalues).alias('Totalsale'))
+df4=df3.select('*',lag(df3.Totalsale).over(window.orderby(df3.month,df3.year)).alias('prevSale'))
+
+df5=df4.select('*',((d4.Totalsale-df4.prevSale)*100/df4.Totalsale))
+
+************************
+
+emp_id,emp_name,skill
+1,john,sql
+1,john,java
+1,john,scala 
+
+emp_name,skill
+john, sql,java,scala
+
+collect list will help to convert the to list of values ["sql","java","scala"]
+
+df2=df1.groupby(df1.emp_name).agg(collect_list(df.skill).alias('Skill'))
+
+df3=df2.select(df2.emp_name,concat_ws(',',df3.skill)
+
+******************************************
+to find start and end station
+
+customer_id start end
+c1	Q P
+c1  A Q
+c1	p S
+c1  S R
+
+here A and R comes only once so that's the st and end place first will create df for st and end then do union then will count & fillter it based on the count
+
+df_st=df.select(col("customer_id"),col("start").alias("loc"))
+
+df_end=df.select(col("customer_id"),col("end").alias("loc"))
+
+df_union=df_st.union(df_end)
+
+df_unique = df_union.groupby(col("customer_id"),col("loc")).agg(count(lit(1)).alias(count)).filter(count==1).drop(count).orderby(col("customer_id"))
+
+df_join=df.join(df_unique, (df.customer_id==df_unique.customer_id) & ((df.start==df_unique.start)|(df.end==df_unique.end)),"inner").drop(df_unique.customer_id)
+
+df_ans = df_join.withcolumn("cust_st_loc",when(col(start))==col("loc"),col("start")).withcolumn("cust_end_loc",when(col(end))==col("loc"),col("end")).select(col(customer_id),col("cust_st_loc"),col("cust_st_loc"))
+
+df_final=af_ans.groupby(col("customer_id")).agg(min(col("cust_st_loc")).alias("start"),max(col("cust_end_loc")).alias("end"))
+
+********************************************
+
+Windows functions
+
+from pyspark.sql import SparkSession
+from pyspark.sql.window import Window
+from pyspark.sql.functions import row_number
+
+spark = SparkSession.builder.appName("Row Number Example").getOrCreate()
+
+data = [
+    ("Alice", "Sales", 5000),
+    ("Bob", "Sales", 5000),
+    ("John", "Sales", 5500),
+    ("Carol", "HR", 5300),
+    ("David", "HR", 4200),
+    ("Eve", "IT", 6000),
+    ("Frank", "IT", 5800),
+]
+
+columns = ["Name", "Department", "Salary"]
+
+df = spark.createDataFrame(data, columns)
+
+windowSpec = Window.partitionBy("Department").orderBy("Salary")
+
+df.withColumn("row_number", row_number().over(windowSpec)).show()
+
+#The rank function assigns a rank to each row within a window partition.
+# The rank starts at 1 and gaps exist in the ranking if there are ties.
+from pyspark.sql.functions import rank
+
+df.withColumn("rank", rank().over(windowSpec)).show()
+
+#The dense_rank function is similar to rank but it doesn't leave gaps in the ranking sequence.
+from pyspark.sql.functions import dense_rank
+
+df.withColumn("dense_rank", dense_rank().over(windowSpec)).show()
+
+#The lag function allows you to access the value of a previous row in the same window partition.
+# This is useful for calculations like differences or comparisons with prior periods.
+from pyspark.sql.functions import lag
+
+df.withColumn("previous_salary", lag("Salary", 1).over(windowSpec)).show()
+
+
+#The lead function allows you to access the value of a subsequent row in the same window partition.
+# This can be useful for forward-looking comparisons.
+from pyspark.sql.functions import lead
+
+df.withColumn("next_salary", lead("Salary", 1).over(windowSpec)).show()
+
+
+#The `sum` function, when used with a window specification,
+# can calculate a cumulative sum over a window partition.
+
+from pyspark.sql.functions import sum
+
+df.withColumn("cumulative_sum", sum("Salary").over(windowSpec)).show()
+
+*****************************
+months_between(current_date(),col("Joining_date")) -> will retrun total months between two dates
+
+datediff(current_date(),col("Joining_date"))-> will retrun total days between two dates
+
+df.withcolumn("formatdate",date_format(to_timestamp(col("Joining_date")),"dd MMM yyyy" ))
+**************
+
+df.filter(df.name.like("_le"))
+
+df.filter(df["name"].rlike("^a-pA-P%")) ->name starts with a-p 
+
+df.filter(~(df["name"].rlike("^a-pA-P%"))) -> name not starts with a-p 
+
+df.filter(~lower(col("name")).isin("jeeva","walt"))
+
+df.select(rtrim()col("name")) -> to remove whitespaces in right side & ltrim is from left side
+
+********************
+
+Select top 3 values based on the 'value' column
+top_3_df = df.orderBy(col("value").desc()).limit(3)
+***************
+# Import your libraries
+import pyspark
+from pyspark.sql.functions import * 
+from pyspark.sql.window import Window
+# Start writing code
+#worker.show()
+#title.show()
+df=worker.join(title,worker.worker_id==title.worker_ref_id,"inner")
+
+df=df.groupby(df.worker_title).agg(max(df.salary).alias("Max_sal"))
+
+df=df.orderBy(df.Max_sal.desc())
+df=df.withColumn("rank",dense_rank().over(Window.orderBy(col("Max_sal").desc())))
+# To validate your solution, convert your final pySpark df to a pandas df
+df=df.filter(df.rank=='1').select(df.worker_title.alias("best_paid_title"))
+df.toPandas()
+
+********************
+ most distinct video approved by youtube
+countDistinct- will give the dictinct count
+
+df = user_flags.join(flag_review,user_flags.flag_id == flag_review.flag_id,'inner').filter((flag_review.reviewed_by_yt == 'true') & (flag_review.reviewed_outcome == 'APPROVED')) \
+.groupBy(col("user_firstname"),col("user_lastname")) \
+.agg(countDistinct(col("video_id")).alias("total")) \
+.withColumn("username",concat(col("user_firstname"),lit(" "),col("user_lastname"))) \
+.withColumn("rank",dense_rank().over(Window.orderBy(col("total").desc()))) \
+.filter(col("rank")==1).select("username").orderBy(col("username").desc())
+********************
+df.na.fill(value='unknown',subset=['email'])
+
+*************
+nested list
+nested_list = [[1, 2, 3], [4, 5], [6, 7, 8, 9]]
+flattened_list = [item for sublist in nested_list for item in sublist]
+print(flattened_list)
+***************************
+
+head vs take
+if we didn't prvide number in head it will return first row but in take we need to mention the number
+Differences
+Default Behavior: head() returns the first row by default if no argument is provided, whereas take() requires the number of rows to be specified.
+Usage Context: head can be seen as a more convenient method when you need to inspect the first few rows or a single row quickly. take is generally used for explicitly retrieving a specific number of rows.
+Similarities
+Both methods return the results as a list of Row objects.
+Both methods are action operations that trigger the execution of the Spark computation.
+
+*************
+
+find missing number in df
+
+id
+1
+2
+3
+6
+7
+8
+
+first find mix and max values to construce new df
+
+df_list=df.select(min(id),max(id))
+
+df_new = spark.range(df_list.first()[0],df_list.first()[1]+1) -> +1 needed since it's exclusive
+
+df_sub = df_new.subtract(df)
+
+*******************
+to write specific schems in sep file like int type in sep file folat in sep file
+Input 
+data = [
+    (1, "Sagar", 23, "Male", 68.0),
+    (2, "Kim", 35, "Female", 90.2),
+    (3, "Alex", 40, "Male", 79.1),
+]
+schema = "Id int,Name string,Age int,Gender string,Marks float"
+df = spark.createDataFrame(data, schema)
+
+
+Solution: 
+from pyspark.sql.functions import col
+set_of_dtypes=set(i[1] for i in df.dtypes)
+for i in set_of_dtypes:
+    cols=[]
+    for j in df.dtypes:
+        if(i==j[1]):
+           cols.append(j[0])
+    df.select(cols).write.mode('overwrite').save(f'/FileStore/tables/output_capegmini/{i}')
+	
+******************************************
+
+import pandas as pd
+import pyspark.sql.functions as F
+from pyspark.sql.window import Window
+
+amazon_transactions = amazon_transactions.withColumn("created_at", F.to_date(F.col("created_at"), "MM-dd-yyyy"))
+df = amazon_transactions.orderBy(F.col("user_id"), F.col("created_at"))
+windowSpec = Window.partitionBy("user_id").orderBy("created_at")
+df = df.withColumn("prev_value", F.lag("created_at").over(windowSpec))
+df = df.withColumn("days", F.datediff(F.col("created_at"), F.col("prev_value")))
+result = df.filter(F.col("days") <= 7).select("user_id").distinct().toPandas()
+
+result
+*************
+df.rdd.getNumPartitions()
+
+df1=df.withColumn("partition_column_id",spark_partition_id()).groupby("partition_column_id").agg(count("*"))
+
+Global Sorting: orderBy performs a global sort of the DataFrame. It ensures that the entire DataFrame is sorted according to the specified columns across all partitions.
+Performance: Since orderBy requires a global sort, it involves a full shuffle of the data across the network, which can be time-consuming and expensive in terms of resources.
+
+Partition-level Sorting: sortWithinPartitions sorts the data within each partition individually. It does not perform a global sort; each partition is sorted independently.
+Performance: sortWithinPartitions is more efficient than orderBy as it avoids the full shuffle across the network. It only sorts the data within the boundaries of each partition.
+
+ Use sortWithinPartitions when you need data to be sorted within partitions but don't require a global sort. This can be useful in certain operations like window functions where partition-level sorting is sufficient.
+**************************
+to find the df which is in the spark session
+Globals will help to get the all the function,variables in the program
+from pyspark.sql import Dataframe
+
+for k,v in globals().items():
+	if (type(v)== DataFrame):
+		print(v)
+		
+*******************************
+draft.withColumn("words", explode(split(col("contents"), "\W+")))
+
+\W+ his splits the contents string into an array of words using a regular expression that matches one or more non-word characters (anything other than a-z, A-Z, 0-9, including underscores), effectively using these as delimiters.
+
+from pyspark.sql.functions import col,when,explode,concat_ws,lit,split,lower,collect_list,regexp_replace
+# Start writing code
+google_file_store=google_file_store.withColumn('contents',regexp_replace(col("contents"),r'[^A-Za-z0-9\s]',""))
+google_file_store=google_file_store[google_file_store['filename'].contains('draft')]
+
+***************************************
+
+result = winemag_p1 \
+    .where(F.lower(F.col('description')).rlike(r"\b(plum|cherry|rose|hazelnut)\b")) \
+    .select('winery') \
+    .distinct() \
+    .toPandas()
